@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB Editor</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #5b21b6);
+  color: #fff;
+  scroll-behavior: smooth;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff66b3;
+  text-shadow: 0 0 6px #ff66b3, 0 0 10px #ff99cc;
+}
+.logo img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 15px 5px rgba(255,102,179,0.7);
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+nav button {
+  background: transparent;
+  border: 1px solid #ff66b3;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+nav button.active, nav button:hover { background: #ff66b3; }
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  padding: 14px;
+}
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(255, 102, 179, 0.4);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  animation: glow 2s infinite alternate;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 16px rgba(255, 102, 179, 0.8);
+}
+@keyframes glow {
+  from { border-color: #ff66b3; }
+  to { border-color: #66ccff; }
+}
+/* Make all Logo images circular */
+.card[data-category="logo"] img {
+  width: 155px;
+  height: 155px; /* adjust as needed */
+  object-fit: cover;
+  border-radius: 50%;  /* circle shape */
+  display: block;
+  margin: 20px auto 0 auto;
+  box-shadow: 0 0 10px rgba(255,102,179,0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card[data-category="logo"] img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255,102,179,0.8);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.card video {
+  width: 100%;
+  height: auto; 
+  object-fit: contain; 
+  background: #000; 
+}
+.card-info {
+  padding: 8px;
+  text-align: center;
+}
+.card-title { font-weight: bold; margin: 4px 0; font-size: 16px; }
+.card-price { color: #ffb3e6; font-size: 15px; margin-bottom: 6px; }
+.whatsapp-btn {
+  display: inline-flex;           /* Flex for text + arrow */
+  align-items: center;
+  justify-content: center;
+  background: #25D366;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+/* WhatsApp Button with Arrow, Rainbow Glow and Click Effect */
+.whatsapp-btn {
+  display: inline-flex;           /* Flex for text + arrow */
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #25D366, #128C7E); /* gradient */
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 0 6px #25D366;
+}
+
+.whatsapp-btn:hover {
+  background: linear-gradient(45deg, #1ebe57, #075E54);
+  box-shadow: 0 0 12px #25D366, 0 0 20px #128C7E;
+}
+
+.whatsapp-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 8px #25D366, 0 0 14px #128C7E;
+}
+
+/* Arrow style */
+.whatsapp-btn::before {
+  content: '➔'; /* Arrow symbol */
+  margin-left: 6px;
+  font-size: 16px;
+  display: inline-block;
+  animation: rainbow-glow 1.5s linear infinite;
+}
+
+/* Rainbow glow animation for arrow */
+@keyframes rainbow-glow {
+  0% { color: red; text-shadow: 0 0 6px red; }
+  14% { color: orange; text-shadow: 0 0 6px orange; }
+  28% { color: yellow; text-shadow: 0 0 6px yellow; }
+  42% { color: green; text-shadow: 0 0 6px green; }
+  57% { color: blue; text-shadow: 0 0 6px blue; }
+  71% { color: indigo; text-shadow: 0 0 6px indigo; }
+  85% { color: violet; text-shadow: 0 0 6px violet; }
+  100% { color: red; text-shadow: 0 0 6px red; }
+}
+
+
+
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+  background: rgba(0,0,0,0.5);
+  margin-top: 14px;
+}
+
+/* Tablet & Desktop */
+@media(min-width: 480px) { .gallery { grid-template-columns: 1fr 1fr; } }
+@media(min-width: 768px) { .gallery { grid-template-columns: repeat(4,1fr); } }
+
+/* Mobile Enhancements */
+@media(max-width: 500px){
+  .card img { height: 220px; }
+  .card-title { font-size: 18px; }
+  .card-price { font-size: 16px; }
+  .whatsapp-btn { font-size: 15px; padding: 6px 12px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="photo1.png" alt="Logo"> AB Editor
+  </div>
+  <nav>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="photo">Photo Edit</button>
+    <button class="filter-btn" data-filter="video">Video Edit</button>
+    <button class="filter-btn" data-filter="reels">Reels Edit</button>
+    <button class="filter-btn" data-filter="logo">Logo Edit</button>
+    <button class="filter-btn" data-filter="ai">AI Image Edit</button>
+    <button class="filter-btn" data-filter="birthday">Birthday Edit</button>
+    <button class="filter-btn" data-filter="baby months">Baby Months Edit</button>
+  </nav>
+</header>
+
+<section class="gallery">
+  <!-- Photo -->
+  <div class="card" data-category="photo" data-title=" this Photo" data-price="199" data-src="media/photo1.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Photo</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="photo" data-title="Photo 2" data-price="199" data-src="media/photo2.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Photo</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="photo" data-title="Photo 3" data-price="199" data-src="media/photo3.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Photo</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="photo" data-title="Photo 4" data-price="199" data-src="media/photo4.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Photo</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+
+  <!-- Video -->
+  <div class="card" data-category="video" data-title="Video 1" data-price="299" data-src="media/video1.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Video 1</p><p class="card-price">₹15</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="video" data-title="Video 2" data-price="299" data-src="media/video2.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Video 2</p><p class="card-price">₹15</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="video" data-title="Video 3" data-price="299" data-src="media/video3.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Video 3</p><p class="card-price">₹15</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="video" data-title="Video 4" data-price="299" data-src="media/video4.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Video 4</p><p class="card-price">₹15</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+
+  <!-- Reels -->
+  <div class="card" data-category="reels" data-title="Reels 1" data-price="199" data-src="media/reel1.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Reels 1</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="reels" data-title="Reels 2" data-price="199" data-src="media/reel2.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Reels 2</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="reels" data-title="Reels 3" data-price="199" data-src="media/reel3.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Reels 3</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="reels" data-title="Reels 4" data-price="199" data-src="media/reel4.mp4">
+    <video src="video3.mp4" controls loop playsinline></video>
+    <div class="card-info"><p class="card-title">Reels 4</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+
+  <!-- Logo -->
+  <div class="card" data-category="logo" data-title="Logo 1" data-price="249" data-src="media/logo1.png">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Logo 1</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="logo" data-title="Logo 2" data-price="249" data-src="media/logo2.png">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Logo 2</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="logo" data-title="Logo 3" data-price="249" data-src="media/logo3.png">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Logo 3</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="logo" data-title="Logo 4" data-price="249" data-src="media/logo4.png">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Logo 4</p><p class="card-price">₹10</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+
+  <!-- AI -->
+  <div class="card" data-category="ai" data-title="AI 1" data-price="299" data-src="media/ai1.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">AI 1</p><p class="card-price">₹30</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="ai" data-title="AI 2" data-price="299" data-src="media/ai2.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">AI 2</p><p class="card-price">₹30</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="ai" data-title="AI 3" data-price="299" data-src="media/ai3.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">AI 3</p><p class="card-price">₹30</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="ai" data-title="AI 4" data-price="299" data-src="media/ai4.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">AI 4</p><p class="card-price">₹30</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+
+  <!-- Birthday -->
+  <div class="card" data-category="birthday" data-title="Birthday 1" data-price="199" data-src="media/birthday1.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Birthday 1</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="birthday" data-title="Birthday 2" data-price="199" data-src="media/birthday2.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Birthday 2</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="birthday" data-title="Birthday 3" data-price="199" data-src="media/birthday3.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Birthday 3</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="birthday" data-title="Birthday 4" data-price="199" data-src="media/birthday4.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title">Birthday 4</p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+
+    <!--Baby Months-->
+  <div class="card" data-category="baby months" data-title="" data-price="199" data-src="media/birthday1.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title"></p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="baby months" data-title="" data-price="199" data-src="media/birthday2.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title"></p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="baby months" data-title="" data-price="199" data-src="media/birthday3.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title"></p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+  <div class="card" data-category="baby months" data-title="" data-price="199" data-src="media/birthday4.jpg">
+    <img src="photo2.jpeg"><div class="card-info"><p class="card-title"></p><p class="card-price">₹20</p><a class="whatsapp-btn" href="#">WhatsApp</a></div></div>
+</section>
+</section>
+
+<footer style="text-align:center; padding:20px; background:#111; color:#fff;">
+  © <span id="year"></span> AB Editor. All rights reserved.
+  <div style="margin-top:10px;">
+    <!-- Logo -->
+    <a href="https://your-website-link.com" target="_blank" style="margin:0 10px;">
+      <img src="photo1.png" alt="AB Editor Logo" style="width:40px; height:40px; border-radius:50%;">
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://instagram.com/yourusername" target="_blank" style="margin:0 10px;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" 
+           alt="Instagram" style="width:40px; height:40px;">
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/91xxxxxxxxxx" target="_blank" style="margin:0 10px;">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" 
+           alt="WhatsApp" style="width:40px; height:40px;">
+    </a>
+  </div>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+const PHONE_NUMBER = "919999999999";
+
+// Filter logic
+const filterBtns = document.querySelectorAll(".filter-btn");
+const cards = document.querySelectorAll(".card");
+filterBtns.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    filterBtns.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const filter=btn.dataset.filter;
+    cards.forEach(card=>{
+      card.style.display = filter==="all" || card.dataset.category===filter ? "block":"none";
+    });
+  });
+});
+
+// WhatsApp share
+// WhatsApp share updated
+document.querySelectorAll(".whatsapp-btn").forEach(btn => {
+  const card = btn.closest(".card");
+  const title = card.dataset.title;
+
+  // Button text dynamically set
+  btn.textContent = `Request this Photo on WhatsApp`;
+
+  btn.addEventListener("click", e => {
+    e.preventDefault();
+    const price = card.dataset.price;
+    const src = card.dataset.src;
+    const message = encodeURIComponent(
+      `Hey! I liked this demo and want the same:\n${title}\nPrice: ₹${price}\nLink: ${location.origin}/${src}`
+    );
+    window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, "_blank");
+  });
+});
+
+
+</script>
+</body>
+</html>
