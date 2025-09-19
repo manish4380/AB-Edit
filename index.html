@@ -191,7 +191,13 @@ footer {
 }
 
 /* Tablet & Desktop */
-@media(min-width: 480px) { .gallery { grid-template-columns: 1fr 1fr; } }
+@media(min-width: 480px) { .gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ✔ ab mobile pe 2 item side-by-side */
+  gap: 14px;
+  padding: 14px;
+}
+
 @media(min-width: 768px) { .gallery { grid-template-columns: repeat(4,1fr); } }
 
 /* Mobile Enhancements */
@@ -366,5 +372,6 @@ document.querySelectorAll(".whatsapp-btn").forEach(btn => {
 </script>
 </body>
 </html>
+
 
 
