@@ -365,7 +365,7 @@ document.querySelectorAll(".whatsapp-btn").forEach(btn => {
     const fullUrl = `${location.origin}${location.pathname.replace(/\/$/, "")}/${src}`;
 
     const message = encodeURIComponent(
-      `Hey! I liked this demo and want the same:\n${title}\nPrice: ₹${price}\nDemo Link: ${fullUrl}`
+       `Hey! I liked this demo and want the same:\n${title}\nPrice: ₹${price}\nImage Link: ${fullUrl}`
     );
 
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, "_blank");
@@ -377,6 +377,7 @@ document.querySelectorAll(".whatsapp-btn").forEach(btn => {
 </script>
 </body>
 </html>
+
 
 
 
