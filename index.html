@@ -350,28 +350,34 @@ filterBtns.forEach(btn=>{
 
 // WhatsApp share
 // WhatsApp share updated
+// WhatsApp share - fixed for hosted links
 document.querySelectorAll(".whatsapp-btn").forEach(btn => {
   const card = btn.closest(".card");
   const title = card.dataset.title;
-
-  // Button text dynamically set
-  btn.textContent = `Request this Photo on WhatsApp`;
+  btn.textContent = `Request this Demo on WhatsApp`;
 
   btn.addEventListener("click", e => {
     e.preventDefault();
     const price = card.dataset.price;
     const src = card.dataset.src;
+
+    // ✅ Correct hosted link (works even if repo is in folder)
+    const fullUrl = `${location.origin}${location.pathname.replace(/\/$/, "")}/${src}`;
+
     const message = encodeURIComponent(
-      `Hey! I liked this demo and want the same:\n${title}\nPrice: ₹${price}\nLink: ${location.origin}/${src}`
+      `Hey! I liked this demo and want the same:\n${title}\nPrice: ₹${price}\nDemo Link: ${fullUrl}`
     );
+
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, "_blank");
   });
 });
 
 
+
 </script>
 </body>
 </html>
+
 
 
 
